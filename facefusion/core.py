@@ -181,7 +181,7 @@ def process_video() -> None:
 		update_status(wording.get('restoring_audio'))
 		restore_audio_result = replace_audio(source_video_path = facefusion.globals.target_path, \
 									   target_video_path = os.path.join(facefusion.globals.output_path, "temp.mp4"), 
-									   output_path = os.path.join(facefusion.globals.output_path, "result.mp4"))
+									   output_path = os.path.join(facefusion.globals.output_path, "temp.mp4"))
 		print(f"===========  恢复音频的结果:{restore_audio_result}")
 		if not restore_audio_result:
 			update_status(wording.get('restoring_audio_failed'))
