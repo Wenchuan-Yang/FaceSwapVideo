@@ -1,5 +1,4 @@
 import os
-
 os.environ['OMP_NUM_THREADS'] = '1'
 
 import signal
@@ -9,6 +8,7 @@ import platform
 import shutil
 import onnxruntime
 from argparse import ArgumentParser, HelpFormatter
+from moviepy.editor import VideoFileClip
 
 import facefusion.choices
 import facefusion.globals
@@ -46,6 +46,7 @@ def run() -> None:
 			return
 	# 如果headless为True，则调用conditional_process函数
 	conditional_process()
+
 
 
 def destroy() -> None:
@@ -178,8 +179,10 @@ def process_video() -> None:
 		move_temp(facefusion.globals.target_path, facefusion.globals.output_path)
 	else:
 		update_status(wording.get('restoring_audio'))
-		restore_audio_result = restore_audio(facefusion.globals.target_path, facefusion.globals.output_path)
-		print(f"===========  恢复音频的结果{restore_audio_result}")
+		restore_audio_result = replace_audio(source_video_path = facefusion.globals.target_path, \
+									   target_video_path = os.path.join(facefusion.globals.output_path, "temp.mp4"), 
+									   output_path = os.path.join(facefusion.globals.output_path, "result.mp4"))
+		print(f"===========  恢复音频的结果:{restore_audio_result}")
 		if not restore_audio_result:
 			update_status(wording.get('restoring_audio_failed'))
 			move_temp(facefusion.globals.target_path, facefusion.globals.output_path)
@@ -192,6 +195,47 @@ def process_video() -> None:
 	else:
 		update_status(wording.get('processing_video_failed'))
 
+
+def replace_audio(source_video_path, target_video_path, output_path):
+    """
+    Replace the audio of the target video with the audio from the source video.
+
+    :param source_video_path: Path to the source video (whose audio will be used).
+    :param target_video_path: Path to the target video (whose audio will be replaced).
+    :param output_path: Path to save the output video with replaced audio.
+    """
+    restore_audio_result = True
+    try:
+		# Load the source video and extract its audio
+        source_video = VideoFileClip(source_video_path)
+        source_audio = source_video.audio
+
+		# Load the target video without its audio
+        target_video = VideoFileClip(target_video_path).without_audio()
+
+		# Set the audio of the target video to the source video's audio
+        final_video = target_video.set_audio(source_audio)
+
+		# Write the result to a file
+        final_video.write_videofile(output_path, codec='libx264', audio_codec='aac')
+
+		# Close the video files to release resources
+        source_video.close()
+        target_video.close()
+        final_video.close()
+    except Exception as e:
+        print(e)
+        restore_audio_result = False
+    return restore_audio_result
+
+
+def remove_file(file_path):
+	# 检查文件是否存在
+	if os.path.exists(file_path):
+		os.remove(file_path)
+		print(f"文件 {file_path} 已被删除。")
+	else:
+		print(f"文件 {file_path} 不存在。")
 
 if __name__ == "__main__":
 	run()
