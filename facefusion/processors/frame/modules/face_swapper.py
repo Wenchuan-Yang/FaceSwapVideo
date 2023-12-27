@@ -97,6 +97,9 @@ def get_frame_processor() -> Any:
 		# 如果FRAME_PROCESSOR为None，则获取模型路径
 		if FRAME_PROCESSOR is None:
 			model_path = get_options('model').get('path')
+			print("  加载swap模型   ")
+			print(f"  模型路径：{model_path}")
+			print(f"  计算：{facefusion.globals.execution_providers}")
 			# 使用onnxruntime初始化FRAME_PROCESSOR，并设置执行提供者
 			FRAME_PROCESSOR = onnxruntime.InferenceSession(model_path, providers = facefusion.globals.execution_providers)
 	# 返回FRAME_PROCESSOR

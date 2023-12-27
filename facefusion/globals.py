@@ -4,7 +4,7 @@ from facefusion.typing import FaceSelectorMode, FaceAnalyserOrder, FaceAnalyserA
 
 # general
 source_path : Optional[str] = '.assets/examples/source.jpg'
-target_path : Optional[str] = '.assets/examples/20231226-102453.mp4'
+target_path : Optional[str] = '.assets/examples/target-1080p.mp4'
 output_path : Optional[str] = '.assets/examples'
 # misc
 skip_download : Optional[bool] = False # 跳过下载#####################
@@ -32,7 +32,7 @@ face_mask_blur : Optional[float] = 0.3 # mask的模糊量
 face_mask_padding : Optional[Padding] = (0, 0, 0, 0) # 以百分比指定mask填充（上、右、下、左）
 # frame extraction
 trim_frame_start : Optional[int] = None # 开始执行操作的帧
-trim_frame_end : Optional[int] = None # 结束执行操作的帧 ################## 测试值：10
+trim_frame_end : Optional[int] = 10 #None # 结束执行操作的帧 ################## 测试值：10
 temp_frame_format : Optional[TempFrameFormat] = 'jpg' # 中间格式
 temp_frame_quality : Optional[int] = 90 # 用于帧提取的图像质量
 keep_temp : Optional[bool] = False # None # 处理后保留临时帧
