@@ -54,3 +54,4 @@ face_swapper_model = 'inswapper_128'
 face_recognizer_model = 'arcface_inswapper'
 frame_enhancer_model = 'real_esrgan_x2plus'
 frame_enhancer_blend = 80
+temp_path = "temp"
