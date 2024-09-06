@@ -1,0 +1,3 @@
+[submodule "IArtPythonCommon"]
+	path = IArtPythonCommon
+	url = https://github.com/iart-ai/IArtPythonCommon.git

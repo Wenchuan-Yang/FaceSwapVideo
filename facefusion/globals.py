@@ -41,7 +41,7 @@ output_image_quality : Optional[int] = 90 # 输出图像的质量
 output_video_encoder : Optional[OutputVideoEncoder] = 'libx264' # 输出视频的编码器
 output_video_quality : Optional[int] = 90 # 输出视频的质量
 keep_fps : Optional[bool] = True # 保留目标的每秒帧数 (fps)
-skip_audio : Optional[bool] = True # 忽略目标中的音频
+skip_audio : Optional[bool] = False # 忽略目标中的音频
 # frame processors
 frame_processors : List[str] = ['face_swapper', 'face_enhancer'] # 处理器
 # uis
@@ -54,3 +54,4 @@ face_swapper_model = 'inswapper_128'
 face_recognizer_model = 'arcface_inswapper'
 frame_enhancer_model = 'real_esrgan_x2plus'
 frame_enhancer_blend = 80
+temp_path = "temp"
